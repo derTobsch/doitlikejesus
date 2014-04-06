@@ -7,6 +7,9 @@
   <link rel="shortcut icon" type="image/png" href="lib/jasmine-2.0.0/jasmine_favicon.png">
 
 
+
+    <script type="text/javascript" src="lib/pixi.dev.js"></script>
+
     <script type="text/javascript" src="src/Timer.js"></script>
 
     <!-- include source files here... -->
@@ -15,23 +18,58 @@
     <script type="text/javascript" src="src/Engine.js"></script>
 
 
+
+    <style>
+        body { background-color: #000000; color: #ffffff}
+        canvas { background-color: #222222; }
+    </style>
 </head>
 
 
 
-<body>
+<body onload="init();">
 
 <h1>
     Do it like Jesus!
 </h1>
+
+<div align="center">
+    <canvas id="game-canvas" width="512" height="384"></canvas>
+</div>
+
+
 <div id="viewcontainer">
 
 </div>
 
+
+
 <script type="text/javascript">
 
-    dlj = new DoItLikeJesus();
 
+    function init() {
+        dlj = new DoItLikeJesus();
+        stage = new PIXI.Stage(0x66FF99);
+        renderer = PIXI.autoDetectRenderer(
+                512,
+                384,
+                document.getElementById("game-canvas")
+        );
+
+
+        var farTexture = PIXI.Texture.fromImage("palmen.jpg");
+        var far = new PIXI.TilingSprite(farTexture, 512, 256);
+        far.position.x = 0;
+        far.position.y = 0;
+        far.tilePosition.x = 0;
+        far.tilePosition.y = 0;
+
+        stage.addChild(far);
+
+
+        renderer.render(stage);
+
+    }
 
 
 </script>

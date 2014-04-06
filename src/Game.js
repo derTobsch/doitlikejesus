@@ -3,12 +3,16 @@ function Jesus() {
     this.name = "Jesus";
     this.position = 0;
     this.speed = 0;
+    this.isOnRunnableGround = true;
 }
 
 Jesus.prototype.getCurrentPosition = function() {
     return this.position;
 }
 
+Jesus.prototype.setIsOnRunnableGround = function(val) {
+    this.isOnRunnableGround = val;
+}
 
 Jesus.prototype.getSpeed = function() {
     return this.speed;
@@ -19,7 +23,14 @@ Jesus.prototype.move = function(by) {
 }
 
 Jesus.prototype.accelerate = function(by) {
-    this.speed = this.speed + by;
+    if (this.isOnRunnableGround) {
+        this.speed = this.speed + by;
+
+    }
+}
+
+Jesus.prototype.decelerate = function(by) {
+    this.speed = this.speed + (-1* by);
 }
 
 function Game(jesus, level) {
@@ -79,7 +90,7 @@ Game.prototype.moveJesus = function(speed) {
         throw "jesus behind sections";
     }
 
-    if (speed <= 0) {
+    if (speed < 0.1) {
         if (section.isStandable()) {
             return
         } else {
@@ -101,8 +112,10 @@ Game.prototype.moveJesus = function(speed) {
 
 
     var cost = walkingsteps * section.getCost();
-    this.jesus.accelerate(-1 * cost);
+    this.jesus.decelerate(cost);
     this.jesus.move(walkingsteps);
+
+    this.jesus.setIsOnRunnableGround(section.isRunnable());
 
     if (this.isLost() || this.isWon()) {
         alert("game done");
