@@ -68,13 +68,18 @@ Game.prototype.isLost = function() {
 }
 
 Game.prototype.moveJesus = function(speed) {
+    if (!this.isRunning()) {
+        return;
+    }
+
+
     var section = this.getCurrentSection();
 
     if (section == null) {
         throw "jesus behind sections";
     }
 
-    if (speed === 0) {
+    if (speed <= 0) {
         if (section.isStandable()) {
             return
         } else {
@@ -94,16 +99,26 @@ Game.prototype.moveJesus = function(speed) {
     }
 
 
+
     var cost = walkingsteps * section.getCost();
     this.jesus.accelerate(-1 * cost);
     this.jesus.move(walkingsteps);
 
+    if (this.isLost() || this.isWon()) {
+        alert("game done");
+        this.running = false;
+    }
+
+
+    if (reststeps > 0) {
+        this.moveJesus(reststeps);
+    }
 
 }
 
 
 Game.prototype.moveJesusByItsSpeed = function() {
-    return this.moveJesus(this.jesus.getSpeed());
+    return this.moveJesus(this.jesus.getSpeed() / 10);
 
 }
 

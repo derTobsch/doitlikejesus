@@ -43,7 +43,7 @@ Speedmeter.prototype.tick = function() {
 }
 
 
-function Engine(game, speedmeter, timer) {
+function Engine(game, speedmeter) {
     this.game = game;
     this.speedmeter = speedmeter;
 
@@ -61,6 +61,7 @@ function DoItLikeJesus() {
 
 
     this.timer = new Timer(1000);
+    this.timer2 = new Timer(100);
 
 
     this.jesus = new Jesus();
@@ -76,7 +77,7 @@ function DoItLikeJesus() {
 
     var self = this;
 
-    this.timer.addEventListener(TimerEvent.TIMER, function(e)
+    this.timer2.addEventListener(TimerEvent.TIMER, function(e)
     {
         self.engine.tick();
         self.view.render();
@@ -102,6 +103,7 @@ function DoItLikeJesus() {
 
 
     this.timer.start();
+    this.timer2.start();
 
 
 
