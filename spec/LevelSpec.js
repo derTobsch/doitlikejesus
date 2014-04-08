@@ -75,6 +75,14 @@ describe("Level", function() {
         it("has zero runfactor", function() {
             expect(watersection.getRunFactor()).toBe(0);
         });
+
+        it("has high cost", function() {
+            expect(watersection.getCost()).toBeGreaterThan(0.5);
+        });
+
+        it("has higher cost than sand", function() {
+            expect(watersection.getCost()).toBeGreaterThan(sandsection.getCost());
+        });
     });
 
     describe("Sand", function() {
@@ -89,6 +97,9 @@ describe("Level", function() {
         });
         it("has a runfactor", function() {
             expect(sandsection.getRunFactor()).toBeGreaterThan(0);
+        });
+        it("has low cost", function() {
+            expect(sandsection.getCost()).toBeLessThan(0.2);
         });
     });
 

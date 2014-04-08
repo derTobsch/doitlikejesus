@@ -28,16 +28,13 @@ describe("Engine", function() {
         //expect(engine).toBeDefined();
     });
 
-
-
     describe("Speedmeter", function() {
 
         var speedmeter = new Speedmeter(new Jesus());
 
-
         it("returns a speed", function() {
 
-            for (var i = 0; i < 100; i++) {
+            for (var i = 0; i < 10; i++) {
                 speedmeter.leftLeg();
                 speedmeter.rightLeg();
             }

@@ -3,10 +3,11 @@ describe("Game", function() {
   var game;
   var sandsection = new Section(new Sand(), 100);
   var watersection = new Section(new Water(), 100);
+  var goal = new Section(new Goal(), 100);
 
 
   beforeEach(function() {
-    level = new Level([sandsection,watersection]);
+    level = new Level([sandsection,watersection,goal]);
     jesus = new Jesus();
     game = new Game(jesus, level);
   });
@@ -21,14 +22,58 @@ describe("Game", function() {
     });
 
     it("can move Jesus on sand", function() {
+        game.start();
 
         var positionBeforeMove = jesus.getCurrentPosition();
 
-        game.moveJesus(10);
+        game.moveJesus(100);
 
         expect(jesus.getCurrentPosition()).toBeGreaterThan(positionBeforeMove);
     });
 
+
+
+    it("detects jesus' death", function() {
+        game.start();
+
+        game.moveJesus(100);
+
+        expect(game.isLost()).toBeFalsy();
+
+        game.moveJesus(0);
+
+        expect(game.isLost()).toBeTruthy();
+
+
+    });
+
+
+    it("detects jesus' win", function() {
+        game.start();
+
+        game.moveJesus(10);
+
+        expect(game.isWon()).toBeFalsy();
+
+        game.moveJesus(1010);
+
+        expect(game.isWon()).toBeTruthy();
+
+
+    });
+
+    it("movement of jesus over sand decreases speed", function() {
+        game.start();
+
+        jesus.accelerate(100);
+        var speedBefore = jesus.getSpeed();
+        game.moveJesus(10);
+
+        expect(jesus.getSpeed()).toBeLessThan(speedBefore);
+
+
+
+    });
 
     describe("Jesus", function() {
         it("starts at position 0", function() {
@@ -70,44 +115,6 @@ describe("Game", function() {
 
     });
 
-    describe("Jesus' movement", function() {
-
-
-
-        xit("cannot move Jesus on water", function() {
-            jesus.move(sandsection.getLength() + 10); // jesus stands on water now
-            var jesusOnWater = jesus.getCurrentPosition();
-
-            game.moveJesus(100);
-
-            expect(jesus.getCurrentPosition()).toBe(jesusOnWater);
-        });
-
-        xit("moves Jesus by runfactor of section", function() {
-
-            spyOn(sandsection, "getRunFactor").and.returnValue(0.5);
-
-            game.moveJesus(12); // jesus stands on water now
-
-            expect(jesus.getCurrentPosition()).toBe(12 * 0.5);
-        });
-
-        it("detects jesus' death", function() {
-            game.moveJesus(100);
-
-            expect(game.isLost()).toBeFalsy();
-
-            game.moveJesus(0);
-
-            expect(game.isLost()).toBeTruthy();
-
-
-        });
-
-
-
-
-    });
 
 
 

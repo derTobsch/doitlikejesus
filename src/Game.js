@@ -90,7 +90,7 @@ Game.prototype.moveJesus = function(speed) {
         throw "jesus behind sections";
     }
 
-    if (speed < 0.1) {
+    if (speed < (1/100)) {
         if (section.isStandable()) {
             return
         } else {
@@ -118,7 +118,6 @@ Game.prototype.moveJesus = function(speed) {
     this.jesus.setIsOnRunnableGround(section.isRunnable());
 
     if (this.isLost() || this.isWon()) {
-        alert("game done");
         this.running = false;
     }
 
@@ -131,7 +130,7 @@ Game.prototype.moveJesus = function(speed) {
 
 
 Game.prototype.moveJesusByItsSpeed = function() {
-    return this.moveJesus(this.jesus.getSpeed() / 10);
+    return this.moveJesus(this.jesus.getSpeed() / 100);
 
 }
 

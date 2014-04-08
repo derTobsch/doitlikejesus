@@ -34,8 +34,9 @@ Speedmeter.prototype.rightLeg = function() {
 Speedmeter.prototype.tick = function() {
 
     var plus = this.count - this.expected;
-    console.log("plus would be " + plus);
     if (plus > 0) {
+        console.log("accelerating jesus by " + plus);
+
         this.jesus.accelerate(plus);
     }
 
@@ -60,8 +61,8 @@ Engine.prototype.tick = function() {
 function DoItLikeJesus() {
 
 
-    this.timer = new Timer(1000);
-    this.timer2 = new Timer(100);
+    this.speedCheckTimer = new Timer(1000);
+    this.moveJesusTimer = new Timer(10);
 
 
     this.jesus = new Jesus();
@@ -77,13 +78,13 @@ function DoItLikeJesus() {
 
     var self = this;
 
-    this.timer2.addEventListener(TimerEvent.TIMER, function(e)
+    this.moveJesusTimer.addEventListener(TimerEvent.TIMER, function(e)
     {
         self.engine.tick();
         self.view.render();
     });
 
-    this.timer.addEventListener(TimerEvent.TIMER, function(e)
+    this.speedCheckTimer.addEventListener(TimerEvent.TIMER, function(e)
     {
         self.speedmeter.tick();
     });
@@ -94,16 +95,14 @@ function DoItLikeJesus() {
     document.addEventListener('keyup', function (e){
         if (e.keyCode === 65) {
             self.speedmeter.leftLeg();
-            console.log("left");
         } else if (e.keyCode === 68) {
             self.speedmeter.rightLeg();
-            console.log("right");
         }
     }, false);
 
 
-    this.timer.start();
-    this.timer2.start();
+    this.speedCheckTimer.start();
+    this.moveJesusTimer.start();
 
 
 

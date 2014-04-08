@@ -92,4 +92,13 @@ Level.prototype.getRemainingLengthForSectionAtPosition = function(position) {
 
 
 
-var Level_1 = new Level([new Section(new Sand(), 100), new Section(new Water(), 15),new Section(new Goal(), 100)]);
+var Level_1 = new Level([
+    new Section(new Sand(), 10),
+    new Section(new Water(), 3),
+    new Section(new Sand(), 20),
+    new Section(new Water(), 10),
+    new Section(new Sand(), 50),
+    new Section(new Water(), 30),
+    new Section(new Sand(), 100),
+    new Section(new Water(), 45),
+    new Section(new Goal(), 10)]);

@@ -18,6 +18,9 @@
     <script type="text/javascript" src="src/Engine.js"></script>
 
 
+    <script type="text/javascript" src="src/view/JesusView.js"></script>
+
+
 
     <style>
         body { background-color: #000000; color: #ffffff}
@@ -46,29 +49,73 @@
 
 <script type="text/javascript">
 
+    var factor = 100;
+
 
     function init() {
+
         dlj = new DoItLikeJesus();
-        stage = new PIXI.Stage(0x66FF99);
+        stage = new PIXI.Stage(0x94bfff);
         renderer = PIXI.autoDetectRenderer(
-                512,
-                384,
+                1200,
+                400,
                 document.getElementById("game-canvas")
         );
 
 
-        var farTexture = PIXI.Texture.fromImage("palmen.jpg");
-        var far = new PIXI.TilingSprite(farTexture, 512, 256);
-        far.position.x = 0;
-        far.position.y = 0;
-        far.tilePosition.x = 0;
-        far.tilePosition.y = 0;
 
-        stage.addChild(far);
+        sectionViews = [];
+
+
+        var sections = dlj.game.level.sections;
+        var pos = 0;
+        for (var i = 0; i < sections.length; i++) {
+            var section = sections[i];
+            var type = "sand";
+            if (section.type.type == "water") {
+                type = "water";
+
+            }
+            var view = new LandscapeView(type, section.getLength()*factor, pos);
+
+
+            pos = pos + (section.getLength() * factor);
+
+            sectionViews[i] = view;
+        }
+
+
+
+        jesusView = new JesusView();
+
+        stage.addChild(new LandscapeView("sand", 1200 * factor, 0));
+
+        for (var i = 0; i < sectionViews.length; i++) {
+            stage.addChild(sectionViews[i]);
+        }
+
+
+        stage.addChild(jesusView);
+
+
+
+
+        requestAnimFrame(update);
+
+    }
+
+
+    function update() {
+
+        var x = dlj.jesus.getCurrentPosition() * factor;
+
+        for (var i = 0; i < sectionViews.length; i++) {
+            sectionViews[i].moveTo(x);
+        }
 
 
         renderer.render(stage);
-
+        requestAnimFrame(update);
     }
 
 
