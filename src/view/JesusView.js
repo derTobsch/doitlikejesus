@@ -13,10 +13,12 @@ function LevelView(stage, dlj, stagewidth) {
 
     this.pool = new SpritePool(this.stagewidthInX + 2, ["water", "sand"]);
 
+    this.jesusOnWater = false;
 
     this.initializeSectionViews(dlj.game.level.sections);
 
     this.jesusView = new JesusView();
+    this.jesusOnWaterView = new JesusOnWaterView();
     this.stage.addChild(this.jesusView);
 }
 
@@ -52,28 +54,37 @@ LevelView.prototype.update = function() {
     for (var i = 0; i < this.sectionViews.length; i++) {
         var section = this.sectionViews[i];
         if (i < startSection) {
-            if (section.sprite != null) {
-                console.log("hiding sprite " + i);
+            if (section.sprite != null) { // sprite nicht mehr sichtbar aber noch allokiet -> zurück in den pool
                 this.stage.removeChild(section.sprite);
                 this.pool.returnSprite(section.type, section.sprite);
                 section.sprite = null;
             }
 
-        } else if (i < endSection+1) {
+        } else if (i < endSection+1) { // sichtbare abschnitte
 
             var pos = (i - x) * section.width;
-            if (section.sprite == null) {
-                console.log("creating sprite " + i);
+            if (section.sprite == null) { // bislang noch kein sprite allokiert -> aus dem pool holen, auf die stage
                 section.sprite = this.pool.borrowSprite(section.type);
-
-
                 this.stage.addChild(section.sprite);
             }
             section.sprite.moveTo(pos);
 
-
-        } else if (i > endSection) {
+        } else if (i > endSection) { // strom sparen
             break;
+        }
+
+
+        if (i == startSection) {
+            if (section.type == "water" && ! this.jesusOnWater) {
+                this.jesusOnWater = true;
+                console.log("jesus on water now");
+                this.stage.removeChild(this.jesusView);
+                this.stage.addChild(this.jesusOnWaterView)
+            } else if (section.type == "sand" && this.jesusOnWater) {
+                this.jesusOnWater = false;
+                this.stage.removeChild(this.jesusOnWaterView);
+                this.stage.addChild(this.jesusView)
+            }
         }
 
     }
@@ -112,14 +123,27 @@ SpritePool.prototype.borrowSprite = function(type) {
 
 function JesusView() {
 
-    var jesusTexture = PIXI.Texture.fromImage("jesus.png");
+    var jesusTexture = PIXI.Texture.fromImage("jesus_sabsi.png");
     PIXI.Sprite.call(this, jesusTexture);
     this.position.x = 0;
-    this.position.y = 400 - 40 -  jesusTexture.height;
+    this.position.y = 400 - 48 -  jesusTexture.height;
 
 }
 JesusView.constructor = JesusView;
 JesusView.prototype = Object.create(PIXI.Sprite.prototype);
+
+
+
+function JesusOnWaterView() {
+
+    var jesusTexture = PIXI.Texture.fromImage("jesus_slide.png");
+    PIXI.Sprite.call(this, jesusTexture);
+    this.position.x = 0;
+    this.position.y = 400 - 48 -  jesusTexture.height;
+
+}
+JesusOnWaterView.constructor = JesusOnWaterView;
+JesusOnWaterView.prototype = Object.create(PIXI.Sprite.prototype);
 
 
 
