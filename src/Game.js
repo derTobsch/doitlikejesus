@@ -170,5 +170,6 @@ GameView.prototype.render = function() {
 
     var info = this.game.isWon() ? "Spiel gewonnen!" : this.game.isLost() ? "Spiel verloren" : "Spiel läuft!";
     info = info + "<br />Jesus speed: " + this.game.jesus.speed + "\n";
+    info = info + "<br />Jesus pos: " + this.game.jesus.getCurrentPosition() + "\n";
     this.el.innerHTML = "<p>" + info + "</p><pre style='font-size: 0.4em;'>"+  "\n" + jesus+ "\n" + map  + "</pre>";
 }

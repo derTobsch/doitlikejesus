@@ -37,7 +37,7 @@
 </h1>
 
 <div align="center">
-    <canvas id="game-canvas" width="512" height="384"></canvas>
+    <canvas id="game-canvas" width="1200" height="400"></canvas>
 </div>
 
 
@@ -52,52 +52,25 @@
     var factor = 100;
 
 
+
     function init() {
+
+        ViewConstants = {
+            width: 1200,
+            height: 400
+
+        }
 
         dlj = new DoItLikeJesus();
         stage = new PIXI.Stage(0x94bfff);
         renderer = PIXI.autoDetectRenderer(
-                1200,
-                400,
+                ViewConstants.width,
+                ViewConstants.height,
                 document.getElementById("game-canvas")
         );
 
 
-
-        sectionViews = [];
-
-
-        var sections = dlj.game.level.sections;
-        var pos = 0;
-        for (var i = 0; i < sections.length; i++) {
-            var section = sections[i];
-            var type = "sand";
-            if (section.type.type == "water") {
-                type = "water";
-
-            }
-            var view = new LandscapeView(type, section.getLength()*factor, pos);
-
-
-            pos = pos + (section.getLength() * factor);
-
-            sectionViews[i] = view;
-        }
-
-
-
-        jesusView = new JesusView();
-
-        stage.addChild(new LandscapeView("sand", 1200 * factor, 0));
-
-        for (var i = 0; i < sectionViews.length; i++) {
-            stage.addChild(sectionViews[i]);
-        }
-
-
-        stage.addChild(jesusView);
-
-
+        levelView = new LevelView(stage, dlj, ViewConstants.width);
 
 
         requestAnimFrame(update);
@@ -106,16 +79,10 @@
 
 
     function update() {
+       levelView.update();
+       renderer.render(stage);
 
-        var x = dlj.jesus.getCurrentPosition() * factor;
-
-        for (var i = 0; i < sectionViews.length; i++) {
-            sectionViews[i].moveTo(x);
-        }
-
-
-        renderer.render(stage);
-        requestAnimFrame(update);
+       requestAnimFrame(update);
     }
 
 
