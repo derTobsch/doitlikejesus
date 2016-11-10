@@ -110,7 +110,7 @@ SpritePool.prototype.borrowSprite = function (type) {
 };
 
 function JesusView() {
-    var jesusTexture = PIXI.Texture.fromImage("jesus_sabsi.png");
+    var jesusTexture = PIXI.Texture.fromImage("jesus_run.png");
     PIXI.Sprite.call(this, jesusTexture);
     this.position.x = 0;
     this.position.y = 400 - 48 - jesusTexture.height;
