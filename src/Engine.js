@@ -1,17 +1,16 @@
-
 function Speedmeter(jesus) {
     this.jesus = jesus;
 
     this.lastLeg = "right";
     this.count = 0;
     this.expected = 1;
-
 }
-Speedmeter.prototype.getSpeed = function() {
+
+Speedmeter.prototype.getSpeed = function () {
     return this.jesus.getSpeed();
-}
+};
 
-Speedmeter.prototype.leftLeg = function() {
+Speedmeter.prototype.leftLeg = function () {
     if (this.lastLeg === "left") {
         this.count--;
         return;
@@ -19,19 +18,18 @@ Speedmeter.prototype.leftLeg = function() {
     this.lastLeg = "left";
 
     this.count++;
+};
 
-}
 
-
-Speedmeter.prototype.rightLeg = function() {
+Speedmeter.prototype.rightLeg = function () {
     if (this.lastLeg === "right") {
-        this.count--
+        this.count--;
         return;
     }
     this.lastLeg = "right";
-}
+};
 
-Speedmeter.prototype.tick = function() {
+Speedmeter.prototype.tick = function () {
 
     var plus = this.count - this.expected;
     if (plus > 0) {
@@ -41,29 +39,23 @@ Speedmeter.prototype.tick = function() {
     }
 
     this.count = 0;
-}
+};
 
 
 function Engine(game, speedmeter) {
     this.game = game;
     this.speedmeter = speedmeter;
-
-
 }
 
-Engine.prototype.tick = function() {
-
+Engine.prototype.tick = function () {
     this.game.moveJesusByItsSpeed();
-
-}
+};
 
 
 function DoItLikeJesus() {
 
-
     this.speedCheckTimer = new Timer(1000);
     this.moveJesusTimer = new Timer(10);
-
 
     this.jesus = new Jesus();
     this.game = new Game(this.jesus, Level_1);
@@ -78,21 +70,18 @@ function DoItLikeJesus() {
 
     var self = this;
 
-    this.moveJesusTimer.addEventListener(TimerEvent.TIMER, function(e)
-    {
+    this.moveJesusTimer.addEventListener(TimerEvent.TIMER, function (e) {
         self.engine.tick();
         self.view.render();
     });
 
-    this.speedCheckTimer.addEventListener(TimerEvent.TIMER, function(e)
-    {
+    this.speedCheckTimer.addEventListener(TimerEvent.TIMER, function (e) {
         self.speedmeter.tick();
     });
 
     this.view.render();
 
-
-    document.addEventListener('keyup', function (e){
+    document.addEventListener('keyup', function (e) {
         if (e.keyCode === 65) {
             self.speedmeter.leftLeg();
         } else if (e.keyCode === 68) {
@@ -103,7 +92,4 @@ function DoItLikeJesus() {
 
     this.speedCheckTimer.start();
     this.moveJesusTimer.start();
-
-
-
 }

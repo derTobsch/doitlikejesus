@@ -1,33 +1,29 @@
 <!DOCTYPE HTML>
 <html>
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  <title>Do it like jesus!</title>
-
-  <link rel="shortcut icon" type="image/png" href="lib/jasmine-2.0.0/jasmine_favicon.png">
-
-
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Do it like jesus!</title>
 
     <script type="text/javascript" src="lib/pixi.dev.js"></script>
-
     <script type="text/javascript" src="src/Timer.js"></script>
 
     <!-- include source files here... -->
     <script type="text/javascript" src="src/Level.js"></script>
     <script type="text/javascript" src="src/Game.js"></script>
     <script type="text/javascript" src="src/Engine.js"></script>
-
-
     <script type="text/javascript" src="src/view/JesusView.js"></script>
 
-
-
     <style>
-        body { background-color: #000000; color: #ffffff}
-        canvas { background-color: #222222; }
+        body {
+            background-color: #000000;
+            color: #ffffff
+        }
+
+        canvas {
+            background-color: #222222;
+        }
     </style>
 </head>
-
 
 
 <body onload="init();">
@@ -40,26 +36,17 @@
     <canvas id="game-canvas" width="1200" height="400"></canvas>
 </div>
 
-
-<div id="viewcontainer">
-
-</div>
-
-
+<div id="viewcontainer"></div>
 
 <script type="text/javascript">
 
     var factor = 100;
-
-
-
     function init() {
 
         ViewConstants = {
             width: 1200,
             height: 400
-
-        }
+        };
 
         dlj = new DoItLikeJesus();
         stage = new PIXI.Stage(0x94bfff);
@@ -69,23 +56,16 @@
                 document.getElementById("game-canvas")
         );
 
-
         levelView = new LevelView(stage, dlj, ViewConstants.width);
 
-
         requestAnimFrame(update);
-
     }
-
 
     function update() {
-       levelView.update();
-       renderer.render(stage);
-
-       requestAnimFrame(update);
+        levelView.update();
+        renderer.render(stage);
+        requestAnimFrame(update);
     }
-
-
 </script>
 
 </body>

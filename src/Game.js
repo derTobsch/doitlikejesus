@@ -1,4 +1,3 @@
-
 function Jesus() {
     this.name = "Jesus";
     this.position = 0;
@@ -6,32 +5,31 @@ function Jesus() {
     this.isOnRunnableGround = true;
 }
 
-Jesus.prototype.getCurrentPosition = function() {
+Jesus.prototype.getCurrentPosition = function () {
     return this.position;
-}
+};
 
-Jesus.prototype.setIsOnRunnableGround = function(val) {
+Jesus.prototype.setIsOnRunnableGround = function (val) {
     this.isOnRunnableGround = val;
-}
+};
 
-Jesus.prototype.getSpeed = function() {
+Jesus.prototype.getSpeed = function () {
     return this.speed;
-}
+};
 
-Jesus.prototype.move = function(by) {
+Jesus.prototype.move = function (by) {
     return this.position += by;
-}
+};
 
-Jesus.prototype.accelerate = function(by) {
+Jesus.prototype.accelerate = function (by) {
     if (this.isOnRunnableGround) {
         this.speed = this.speed + by;
-
     }
-}
+};
 
-Jesus.prototype.decelerate = function(by) {
-    this.speed = this.speed + (-1* by);
-}
+Jesus.prototype.decelerate = function (by) {
+    this.speed = this.speed + (-1 * by);
+};
 
 function Game(jesus, level) {
     this.jesus = jesus;
@@ -40,29 +38,27 @@ function Game(jesus, level) {
     this.lost = false;
 }
 
-
-Game.prototype.start = function() {
+Game.prototype.start = function () {
     this.running = true;
-}
-Game.prototype.isRunning = function() {
+};
+
+Game.prototype.isRunning = function () {
     return this.running;
-}
+};
 
-Game.prototype.getCurrentSection = function() {
+Game.prototype.getCurrentSection = function () {
     var currentpos = this.jesus.getCurrentPosition();
-    var section = this.level.getSectionAt(currentpos);
 
-    return section;
-}
+    return this.level.getSectionAt(currentpos);
+};
 
-Game.prototype.getRemainingLengthForCurrentSection= function() {
+Game.prototype.getRemainingLengthForCurrentSection = function () {
     var currentpos = this.jesus.getCurrentPosition();
-    var section = this.level.getRemainingLengthForSectionAtPosition(currentpos);
 
-    return section;
-}
+    return this.level.getRemainingLengthForSectionAtPosition(currentpos);
+};
 
-Game.prototype.isWon = function() {
+Game.prototype.isWon = function () {
     if (this.lost) {
         return false;
     }
@@ -72,17 +68,16 @@ Game.prototype.isWon = function() {
         return true;
     }
     return false;
-}
+};
 
-Game.prototype.isLost = function() {
+Game.prototype.isLost = function () {
     return this.lost;
-}
+};
 
-Game.prototype.moveJesus = function(speed) {
+Game.prototype.moveJesus = function (speed) {
     if (!this.isRunning()) {
         return;
     }
-
 
     var section = this.getCurrentSection();
 
@@ -90,7 +85,7 @@ Game.prototype.moveJesus = function(speed) {
         throw "jesus behind sections";
     }
 
-    if (speed < (1/100)) {
+    if (speed < (1 / 100)) {
         if (section.isStandable()) {
             return
         } else {
@@ -109,8 +104,6 @@ Game.prototype.moveJesus = function(speed) {
         walkingsteps = speed;
     }
 
-
-
     var cost = walkingsteps * section.getCost();
     this.jesus.decelerate(cost);
     this.jesus.move(walkingsteps);
@@ -121,25 +114,22 @@ Game.prototype.moveJesus = function(speed) {
         this.running = false;
     }
 
-
     if (reststeps > 0) {
         this.moveJesus(reststeps);
     }
+};
 
-}
 
-
-Game.prototype.moveJesusByItsSpeed = function() {
+Game.prototype.moveJesusByItsSpeed = function () {
     return this.moveJesus(this.jesus.getSpeed() / 100);
-
-}
+};
 
 function GameView(game, element) {
     this.game = game;
     this.el = document.getElementById(element);
-
 }
-GameView.prototype.render = function() {
+
+GameView.prototype.render = function () {
 
     var sections = this.game.level.sections;
     var pos = 0;
@@ -159,7 +149,7 @@ GameView.prototype.render = function() {
             if (sec.type.type == "water") {
                 map = map + "W";
             } else if (sec.type.type === "sand") {
-                map = map +  "S";
+                map = map + "S";
             } else {
                 map = map + "?";
             }
@@ -171,5 +161,5 @@ GameView.prototype.render = function() {
     var info = this.game.isWon() ? "Spiel gewonnen!" : this.game.isLost() ? "Spiel verloren" : "Spiel läuft!";
     info = info + "<br />Jesus speed: " + this.game.jesus.speed + "\n";
     info = info + "<br />Jesus pos: " + this.game.jesus.getCurrentPosition() + "\n";
-    this.el.innerHTML = "<p>" + info + "</p><pre style='font-size: 0.4em;'>"+  "\n" + jesus+ "\n" + map  + "</pre>";
-}
+    this.el.innerHTML = "<p>" + info + "</p><pre style='font-size: 0.4em;'>" + "\n" + jesus + "\n" + map + "</pre>";
+};

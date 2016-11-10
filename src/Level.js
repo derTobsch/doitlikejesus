@@ -11,8 +11,6 @@ function Water() {
     this.runnable = false;
     this.standable = false;
     this.cost = 1;
-
-
 }
 
 function Goal() {
@@ -20,41 +18,38 @@ function Goal() {
     this.runnable = false;
     this.standable = true;
     this.cost = 10;
-
-
 }
 
 function Section(type, length) {
     this.type = type;
     this.len = length;
-
 }
-Section.prototype.getLength = function() {
+
+Section.prototype.getLength = function () {
     return this.len;
-}
+};
 
-Section.prototype.getCost = function() {
+Section.prototype.getCost = function () {
     return this.type.cost;
-}
+};
 
-Section.prototype.isRunnable = function() {
+Section.prototype.isRunnable = function () {
     return this.type.runnable;
-}
+};
 
-
-Section.prototype.isStandable = function() {
+Section.prototype.isStandable = function () {
     return this.type.standable;
-}
+};
 
-Section.prototype.getRunFactor = function() {
+Section.prototype.getRunFactor = function () {
     return this.type.runfactor || 0;
-}
+};
 
 function Level(section) {
     this.sections = section;
-
 }
-Level.prototype.getSectionAt = function(position) {
+
+Level.prototype.getSectionAt = function (position) {
     var startOfSection = 0;
     for (var i = 0; i < this.sections.length; i++) {
         var sec = this.sections[i];
@@ -69,10 +64,9 @@ Level.prototype.getSectionAt = function(position) {
     }
 
     return null;
-
 };
 
-Level.prototype.getRemainingLengthForSectionAtPosition = function(position) {
+Level.prototype.getRemainingLengthForSectionAtPosition = function (position) {
     var startOfSection = 0;
     for (var i = 0; i < this.sections.length; i++) {
         var sec = this.sections[i];
@@ -87,10 +81,7 @@ Level.prototype.getRemainingLengthForSectionAtPosition = function(position) {
     }
 
     return null;
-}
-
-
-
+};
 
 var Level_1 = new Level([
     new Section(new Sand(), 10),
